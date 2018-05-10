@@ -3,6 +3,7 @@ FROM ubuntu:16.04
 # Install build dependencies (and vim + picocom for editing/debugging)
 RUN apt-get -qq update \
     && apt-get install -y gcc git wget make libncurses-dev flex bison gperf python python-serial \
+                          cmake ninja-build ccache \
                           vim picocom \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
@@ -23,6 +24,7 @@ RUN wget -O /tmp/esp32ulp-toolchain.tar.gz https://dl.espressif.com/dl/esp32ulp-
 ENV IDF_PATH /esp-idf
 RUN mkdir -p $IDF_PATH \
  && git clone --recursive https://github.com/espressif/esp-idf.git \
+              -b feature/cmake \
               $IDF_PATH
 
 # Setup environment variables
